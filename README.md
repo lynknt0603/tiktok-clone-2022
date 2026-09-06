@@ -1,110 +1,110 @@
 # TikTok Clone
 
-Đây là project học tập mô phỏng giao diện và một số tính năng chính của TikTok bằng React, Node.js và MongoDB.
+This learning project recreates the TikTok interface and several of its core features with React, Node.js, and MongoDB.
 
-Mã nguồn gốc được thực hiện từ năm 2022 và được giữ gần với cấu trúc ban đầu. Project đã được chỉnh sửa, bảo trì nhẹ để có thể cài đặt, chạy và build lại trên môi trường Node.js hiện tại. Một số cảnh báo từ các dependency cũ vẫn có thể xuất hiện nhưng không làm build thất bại.
+The original source code was created in 2022 and remains close to its initial structure. A small number of maintenance changes have been made so the project can be installed, run, and built again with current Node.js environments. Some warnings from older dependencies may still appear, but they do not prevent a successful build.
 
-## Những phần đã được cập nhật
+## Maintenance Updates
 
-- Làm sạch các nội dung ghi công cá nhân còn sót lại trong giao diện và source code.
-- Bổ sung file môi trường mẫu, tài liệu cài đặt và hướng dẫn build.
-- Sửa trạng thái loading để giao diện không hiển thị skeleton vô hạn khi API gặp lỗi.
-- Bỏ các khoảng chờ giả khi tải video và dữ liệu sidebar.
-- Bổ sung chế độ demo khi MongoDB chưa sẵn sàng.
-- Đóng gói một bộ media demo tối thiểu để project chạy được ngay sau khi clone.
-- Cho phép cấu hình địa chỉ backend bằng `REACT_APP_BASE_URL`.
+- Removed personal attribution left in the interface and source code.
+- Added environment examples, setup documentation, and complete build instructions.
+- Fixed loading states so the interface no longer displays skeletons indefinitely when an API request fails.
+- Removed artificial delays when loading videos and sidebar data.
+- Added an automatic demo mode for environments without MongoDB.
+- Included a minimal demo media set so the project works immediately after cloning.
+- Added backend URL configuration through `REACT_APP_BASE_URL`.
 
-## Tính năng chính
+## Main Features
 
-- Trang video đề xuất.
-- Trang tài khoản đang theo dõi.
-- Hồ sơ người dùng và danh sách video.
-- Xem chi tiết video, bình luận, lượt thích và chia sẻ.
-- Đăng ký, đăng nhập và khôi phục mật khẩu.
-- Upload video.
-- Trang âm nhạc và hashtag.
-- Dashboard quản trị tài khoản, người dùng, video, âm nhạc, xu hướng và thống kê.
+- Recommended video feed.
+- Following feed.
+- User profiles and video lists.
+- Video details, comments, likes, and sharing.
+- Registration, login, and password recovery.
+- Video uploads.
+- Music and hashtag pages.
+- Admin dashboard for accounts, users, videos, music, trends, requests, and statistics.
 
-## Các trang chính
+## Main Pages
 
-| Trang | Đường dẫn | Mô tả |
+| Page | Route | Description |
 | --- | --- | --- |
-| Trang chủ | `/` | Danh sách video đề xuất. |
-| Đang Follow | `/following` | Video từ các tài khoản đang theo dõi. |
-| Hồ sơ | `/:nickname` | Thông tin và video của người dùng. |
-| Chi tiết video | `/:nickname/video/:id` | Video, thông tin và bình luận. |
-| Âm nhạc | `/music/:name-:id` | Các video sử dụng một âm thanh. |
-| Hashtag | `/tag/:name` | Các video thuộc một hashtag. |
-| Upload | `/upload` | Đăng video mới. |
-| Live | `/live` | Trang Live đang ở dạng placeholder. |
-| Đăng nhập | `/login` | Chọn phương thức đăng nhập. |
-| Email hoặc số điện thoại | `/login/phone-or-email` | Form đăng nhập. |
-| Đăng ký | `/register` | Chọn phương thức đăng ký. |
-| Form đăng ký | `/register/phone-or-email` | Tạo tài khoản mới. |
-| Quên mật khẩu | `/login/forget-password` | Giao diện khôi phục mật khẩu. |
+| Home | `/` | Recommended video feed. |
+| Following | `/following` | Videos from followed accounts. |
+| Profile | `/:nickname` | User information and uploaded videos. |
+| Video details | `/:nickname/video/:id` | Video player, metadata, and comments. |
+| Music | `/music/:name-:id` | Videos that use a specific sound. |
+| Hashtag | `/tag/:name` | Videos associated with a hashtag. |
+| Upload | `/upload` | Upload a new video. |
+| Live | `/live` | Live page placeholder. |
+| Login | `/login` | Select a login method. |
+| Email or phone login | `/login/phone-or-email` | Login form. |
+| Register | `/register` | Select a registration method. |
+| Email or phone registration | `/register/phone-or-email` | Account registration form. |
+| Forgot password | `/login/forget-password` | Password recovery interface. |
 
-## Dashboard quản trị
+## Admin Dashboard
 
-Project có dashboard tại `/admin/dashboard`. Đường dẫn này tự chuyển tới trang quản lý tài khoản. Luồng đăng nhập chuyển tài khoản có role khác `user` vào dashboard.
+The project includes an admin dashboard at `/admin/dashboard`. This route redirects to account management. The login flow sends accounts whose role is not `user` to the dashboard.
 
-| Chức năng | Đường dẫn |
+| Feature | Route |
 | --- | --- |
-| Quản lý tài khoản | `/admin/dashboard/manageAccount` |
-| Quản lý người dùng | `/admin/dashboard/manageUser` |
-| Quản lý video | `/admin/dashboard/manageVideo` |
-| Quản lý âm nhạc | `/admin/dashboard/manageMusic` |
-| Quản lý xu hướng/hashtag | `/admin/dashboard/manageTrendy` |
-| Quản lý đơn từ | `/admin/dashboard/manageReport` |
-| Báo cáo thống kê | `/admin/dashboard/manageTotal` |
+| Account management | `/admin/dashboard/manageAccount` |
+| User management | `/admin/dashboard/manageUser` |
+| Video management | `/admin/dashboard/manageVideo` |
+| Music management | `/admin/dashboard/manageMusic` |
+| Trend and hashtag management | `/admin/dashboard/manageTrendy` |
+| Request management | `/admin/dashboard/manageReport` |
+| Statistics | `/admin/dashboard/manageTotal` |
 
-Các thao tác quản trị cần backend, MongoDB và access token hợp lệ. Frontend hiện chưa có route guard riêng cho nhóm route dashboard.
+Administrative operations require the backend, MongoDB, and a valid access token. The frontend does not currently have a dedicated route guard for the dashboard routes.
 
-## Công nghệ
+## Technology Stack
 
-- Frontend: React 18, React Router, Sass, Material UI và Axios.
-- Backend: Node.js, Express, JWT, Multer và Mongoose.
+- Frontend: React 18, React Router, Sass, Material UI, and Axios.
+- Backend: Node.js, Express, JWT, Multer, and Mongoose.
 - Database: MongoDB.
 
-## Cấu trúc project
+## Project Structure
 
 ```text
-client/                 React frontend và cấu hình build
+client/                 React frontend and build configuration
 server/                 Express API
-server/demo-assets/     Media tối thiểu dùng cho chế độ demo
-server/Public/          Media local/upload, không được Git theo dõi
+server/demo-assets/     Minimal media set used by demo mode
+server/Public/          Local and uploaded media, excluded from Git
 ```
 
-## Yêu cầu môi trường
+## Requirements
 
-- Node.js 18 trở lên.
+- Node.js 18 or newer.
 - npm.
-- MongoDB chạy ở cổng `27017` nếu muốn sử dụng dữ liệu thật và các thao tác ghi.
+- MongoDB on port `27017` for real data and write operations.
 
-MongoDB không bắt buộc nếu chỉ muốn xem giao diện và video demo.
+MongoDB is optional if you only want to explore the interface and demo videos.
 
-## Cài đặt lần đầu
+## First-Time Setup
 
-Clone repository và đi vào thư mục project:
+Clone the repository and enter the project directory:
 
 ```bash
 git clone https://github.com/lynknt0603/tiktok-clone-2022.git
 cd tiktok-clone-2022
 ```
 
-### 1. Cài backend
+### 1. Install and run the backend
 
 ```bash
 cd server
 npm ci
 ```
 
-Tạo file `server/.env` từ `server/.env.example`. Trên PowerShell:
+Create `server/.env` from `server/.env.example`. On PowerShell:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Cấu hình mặc định:
+Default configuration:
 
 ```env
 PORT=5000
@@ -113,63 +113,63 @@ DATABASE_NAME=tiktok
 SECRECT_JWT=replace-with-your-own-random-secret
 ```
 
-Hãy thay `SECRECT_JWT` bằng một chuỗi bí mật riêng nếu sử dụng đăng nhập thật. Tên biến `SECRECT_JWT` được giữ nguyên theo source code hiện tại.
+Replace `SECRECT_JWT` with your own secret when using real authentication. The `SECRECT_JWT` spelling is intentionally preserved because it matches the current source code.
 
-Khởi động backend:
+Start the backend:
 
 ```bash
 npm start
 ```
 
-Backend chạy tại [http://localhost:5000](http://localhost:5000).
+The backend runs at [http://localhost:5000](http://localhost:5000).
 
-### 2. Cài frontend
+### 2. Install and run the frontend
 
-Mở terminal thứ hai tại thư mục project:
+Open a second terminal in the project directory:
 
 ```bash
 cd client
 npm ci
 ```
 
-Tạo file `client/.env` từ `client/.env.example`. Trên PowerShell:
+Create `client/.env` from `client/.env.example`. On PowerShell:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Giá trị mặc định:
+Default value:
 
 ```env
 REACT_APP_BASE_URL=http://localhost:5000
 ```
 
-Khởi động frontend ở chế độ development:
+Start the frontend in development mode:
 
 ```bash
 npm start
 ```
 
-Truy cập [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
-## Chế độ demo không cần MongoDB
+## Demo Mode Without MongoDB
 
-Nếu không kết nối được MongoDB, backend tự chuyển các API đọc chính sang dữ liệu demo. Trang chủ, video, tài khoản gợi ý, hashtag và âm nhạc vẫn hiển thị bằng media trong `server/demo-assets`.
+If MongoDB is unavailable, the backend automatically serves demo data from the main read-only APIs. The home feed, videos, suggested accounts, hashtags, and music remain available through media stored in `server/demo-assets`.
 
-Bạn vẫn phải chạy cả backend và frontend. Các chức năng ghi dữ liệu như đăng ký, đăng nhập, upload, follow và thích video cần MongoDB.
+Both the backend and frontend must still be running. Write operations such as registration, login, uploads, follows, and likes require MongoDB.
 
-## Chạy với MongoDB
+## Running With MongoDB
 
-1. Cài và khởi động MongoDB tại `localhost:27017`.
-2. Giữ `DATABASE_NAME=tiktok` hoặc đổi sang tên database mong muốn.
-3. Khởi động lại backend.
-4. Import dữ liệu cũ nếu có bản backup; repository không chứa bản dump database gốc.
+1. Install and start MongoDB at `localhost:27017`.
+2. Keep `DATABASE_NAME=tiktok`, or replace it with your preferred database name.
+3. Restart the backend.
+4. Import the original data if you have a backup. This repository does not include the original database dump.
 
-Khi MongoDB kết nối thành công, các API sẽ tự sử dụng dữ liệu trong database thay cho dữ liệu demo.
+Once MongoDB connects successfully, the API automatically uses database records instead of demo data.
 
-## Build frontend production
+## Production Frontend Build
 
-Đảm bảo đã cài dependency trong `client`, sau đó chạy:
+Install the frontend dependencies and create the optimized build:
 
 ```bash
 cd client
@@ -177,40 +177,40 @@ npm ci
 npm run build
 ```
 
-Kết quả production được tạo tại `client/build`. Build thành công có thể vẫn hiển thị cảnh báo ESLint, Browserslist cũ hoặc bundle lớn.
+The production output is generated in `client/build`. A successful build may still display warnings about ESLint, an outdated Browserslist database, or bundle size.
 
-Để chạy thử bản production:
+To preview the production build:
 
 ```bash
 npx serve -s build -l 3000
 ```
 
-Backend vẫn phải chạy ở terminal khác:
+Keep the backend running in another terminal:
 
 ```bash
 cd server
 npm start
 ```
 
-Nếu deploy backend ở địa chỉ khác, tạo `client/.env.production` trước khi build:
+If the backend is deployed at a different address, create `client/.env.production` before building:
 
 ```env
 REACT_APP_BASE_URL=https://api.example.com
 ```
 
-Sau đó chạy lại `npm run build`. Lưu ý một số thao tác cũ trong project vẫn dùng trực tiếp `localhost:5000` và cần được chuẩn hóa thêm nếu deploy đầy đủ lên production.
+Run `npm run build` again after changing the environment configuration. Some older actions in the project still reference `localhost:5000` directly and require additional cleanup for a complete production deployment.
 
-## Kiểm tra build
+## Verified Build
 
-Lệnh đã được dùng để xác nhận phiên bản hiện tại:
+The current version was verified with:
 
 ```bash
 cd client
 npm run build
 ```
 
-Kết quả: build hoàn tất và thư mục `client/build` được tạo thành công. Các cảnh báo còn lại không chặn quá trình build.
+The command completes successfully and generates `client/build`. The remaining warnings do not block the build.
 
-## Ghi chú
+## Notes
 
-Đây là project học tập sử dụng nhiều dependency từ năm 2022. Chế độ demo chỉ phục vụ việc xem giao diện và video mẫu; không thay thế database cho toàn bộ chức năng ứng dụng.
+This is a learning project that uses several dependencies from 2022. Demo mode is intended for exploring the interface and sample videos; it is not a full replacement for the application database.
