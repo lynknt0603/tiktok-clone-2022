@@ -1,0 +1,28 @@
+const express = require('express');
+const router = express.Router();
+const userController = require('../Controller/UserController')
+const { multerConfigImage } = require("../Helpers/multer");
+const verifyToken = require("../Middleware/auth");
+
+router.get("/get-info/:id", userController.getDetailUser);
+router.put("/update/:id", verifyToken, userController.changeStatusTick);
+router.delete("/delete/:id", verifyToken, userController.deleteUser);
+router.post(
+  "/update-info/:id",
+  verifyToken,
+  multerConfigImage.array("image", 1),
+  userController.updateUser
+);
+
+router.post('/update', userController.updateProfile)
+router.get('/search', userController.searchUser)
+router.get('/get-liked-video', userController.getLikedVideo)
+router.get('/get-list', userController.getListUser)
+router.get('/get-list-suggest', userController.getSuggestUser)
+router.post('/follow-user', userController.followUser)
+router.post('/unfollow-user', userController.unFollowUser)
+router.get('/get-follow-user', userController.getfollowUser)
+router.get('/auth/:nickname', userController.getCurrentUser)
+router.get('/:nickname', userController.getCurrentUserWithoutJWT)
+
+module.exports = router;
