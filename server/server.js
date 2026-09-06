@@ -19,6 +19,7 @@ app.use(express.json());
 app.use('/public/images', express.static('public/images'))
 app.use('/public/video', express.static('public/video'))
 app.use('/public/music', express.static('public/music'))
+app.use('/demo-assets', express.static('demo-assets'))
 
 //connect database
 connectDB()

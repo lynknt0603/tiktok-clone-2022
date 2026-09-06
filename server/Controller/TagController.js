@@ -1,8 +1,14 @@
 const TagModel = require("../Models/TagModel");
 const videoModel = require("../Models/VideoModel");
+const { demoTrendy, demoVideos } = require("../Data/demoData");
+
+const isDatabaseReady = () => TagModel.db.readyState === 1;
 
 //xử lý get list tag trendy
 const getListTrendy = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(demoTrendy);
+  }
   try {
     const listTrendy = await TagModel.find();
     res.send(listTrendy);
@@ -29,6 +35,16 @@ const getListTrendyUpload = async (req, res) => {
 };
 
 const getTrendy = async (req, res) => {
+  if (!isDatabaseReady()) {
+    const trendy = demoTrendy.find((item) => item.name === req.params.name);
+    if (!trendy) {
+      return res.status(404).send({ message: "Hashtag không tồn tại!" });
+    }
+    return res.status(200).send({
+      ...trendy,
+      video: demoVideos.filter((item) => item.trendy.name === trendy.name),
+    });
+  }
   try {
     const name = req.params.name;
     const trendyv1 = await TagModel.findOne({ name: name });

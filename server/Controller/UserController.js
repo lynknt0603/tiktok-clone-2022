@@ -2,6 +2,9 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../Models/UserModel");
 const videoModel = require("../Models/VideoModel");
 const multer = require("multer");
+const { demoUsers } = require("../Data/demoData");
+
+const isDatabaseReady = () => userModel.db.readyState === 1;
 
 //dành cho admin
 const getListUser = async (req, res) => {
@@ -24,6 +27,12 @@ const getListUser = async (req, res) => {
 
 //get người dùng hiện tại đang đăng nhập
 const getCurrentUser = async (req, res) => {
+  if (!isDatabaseReady()) {
+    const user = demoUsers.find((item) => item.nickname === req.params.nickname);
+    return user
+      ? res.status(200).send(user)
+      : res.status(404).send({ message: "Người dùng không tồn tại!" });
+  }
   //1.get token form client
   const bearerHeader = req.headers["authorization"];
   const accessToken = bearerHeader.split(" ")[1];
@@ -58,6 +67,12 @@ const getCurrentUser = async (req, res) => {
 
 //get người dùng
 const getCurrentUserWithoutJWT = async (req, res) => {
+  if (!isDatabaseReady()) {
+    const user = demoUsers.find((item) => item.nickname === req.params.nickname);
+    return user
+      ? res.status(200).send(user)
+      : res.status(404).send({ message: "Người dùng không tồn tại!" });
+  }
   try {
     //verifile token
     const nickname = req.params.nickname;
@@ -71,6 +86,9 @@ const getCurrentUserWithoutJWT = async (req, res) => {
 
 //get người dùng đề xuất(thuộc tích tick = true)
 const getSuggestUser = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(demoUsers);
+  }
   try {
     const listUserSuggest = await userModel.find({ tick: true });
     res.status(200).send(listUserSuggest);
@@ -149,6 +167,9 @@ const unFollowUser = async (req, res) => {
 
 //Get người dùng đã theo dõi
 const getfollowUser = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send([{ fllowing: [] }]);
+  }
   const bearerHeader = req.headers["authorization"];
   const accessToken = bearerHeader.split(" ")[1];
   const bearerHeader1 = req.headers["idaccount"];
@@ -173,6 +194,9 @@ const getfollowUser = async (req, res) => {
 
 //lấy ra danh sách nhưng video đã like của người dùng
 const getLikedVideo = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send([{ liked: [] }]);
+  }
   const bearerHeader1 = req.headers["idaccount"];
   const idAccount = bearerHeader1.split(" ")[1];
   try {

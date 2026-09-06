@@ -17,6 +17,7 @@ function Home() {
     const [check, setCheck] = useState([]);
     const [followingAccounts, setFollowingAccount] = useState([]);
     const [show, setShow] = useState(false);
+    const [error, setError] = useState('');
     const toastNotice = useRef();
     console.log('data', data);
 
@@ -44,6 +45,7 @@ function Home() {
     },[]);
     useEffect(() => {
         setShow(false);
+        setError('');
         if (localStorage.getItem('accessToken')) {
             try {
                 axios
@@ -51,13 +53,13 @@ function Home() {
                     .then((result) => {
                         setData(result.data);
                         if (result) {
-                            setTimeout(() => {
-                                setShow(true);
-                            }, 1000);
+                            setShow(true);
                         }
                     })
                     .catch((err) => {
                         console.log(err);
+                        setError('Không thể kết nối tới backend. Hãy chạy server ở cổng 5000.');
+                        setShow(true);
                     });
             } catch (error) {
                 console.log(error);
@@ -70,13 +72,13 @@ function Home() {
                     .then((result) => {
                         setData(result.data);
                         if (result) {
-                            setTimeout(() => {
-                                setShow(true);
-                            }, 1500);
+                            setShow(true);
                         }
                     })
                     .catch((err) => {
                         console.log(err);
+                        setError('Không thể kết nối tới backend. Hãy chạy server ở cổng 5000.');
+                        setShow(true);
                     });
             } catch (error) {
                 console.log(error);
@@ -147,13 +149,19 @@ function Home() {
             </div>
             <div>
                 {show ? (
-                    <>
-                        {data.reverse().map((item, index) => {
+                    error ? (
+                        <div className={cx('state-message')}>{error}</div>
+                    ) : data.length ? (
+                        <>
+                            {[...data].reverse().map((item, index) => {
                             return (
                                 <RecommendItem data={item} key={index} index={index} followUser={followingAccounts} check={check} onClick={()=>renderData(item)}/>
                             );
-                        })}
-                    </>
+                            })}
+                        </>
+                    ) : (
+                        <div className={cx('state-message')}>Chưa có video để hiển thị.</div>
+                    )
                 ) : (
                     <SekeletonLoadingForHome />
                 )}

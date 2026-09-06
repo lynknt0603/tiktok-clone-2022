@@ -4,6 +4,9 @@ const videoModel = require("../Models/VideoModel");
 const musicModel = require("../Models/MusicModel");
 const userModel = require("../Models/UserModel");
 const trendyModel = require("../Models/TagModel");
+const { demoVideos } = require("../Data/demoData");
+
+const isDatabaseReady = () => videoModel.db.readyState === 1;
 
 // SET STORAGE
 var storage = multer.diskStorage({
@@ -61,6 +64,11 @@ const uploadVideo = async (req, res) => {
 
 //Lấy ra toàn bộ video của người dùng
 const getUserVideo = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(
+      demoVideos.filter((video) => video.author.nickname === req.params.nickname)
+    );
+  }
   const bearerHeader = req.headers["authorization"];
   const accessToken = bearerHeader.split(" ")[1];
   const bearerHeader1 = req.headers["iduser"];
@@ -82,6 +90,13 @@ const getUserVideo = async (req, res) => {
 
 //Lấy ra chi tiết video của người dùng
 const getCurrentVideo = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(
+      demoVideos.filter(
+        (video) => video.author.nickname === req.params.nickname && video.id === req.params.id
+      )
+    );
+  }
   try {
     // console.log(idUser);
     const nickname = req.params.nickname;
@@ -101,6 +116,11 @@ const getCurrentVideo = async (req, res) => {
 
 //Lấy ra video của trendy
 const getTrendyVideo = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(
+      demoVideos.filter((video) => video.trendy.name === req.params.name)
+    );
+  }
   try {
     const name = req.params.name;
     const trendy = await trendyModel.findOne({ name: name });
@@ -117,6 +137,11 @@ const getTrendyVideo = async (req, res) => {
 
 //Lấy ra video của music
 const getMusicVideo = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(
+      demoVideos.filter((video) => video.music.id === req.params.id)
+    );
+  }
   try {
     const id = req.params.id;
     console.log(id);
@@ -135,6 +160,9 @@ const getMusicVideo = async (req, res) => {
 
 //lấy ra video của những người không follow
 const getRandomVideo = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(demoVideos);
+  }
   try {
     const listVideo = await videoModel
       .find()
@@ -149,6 +177,9 @@ const getRandomVideo = async (req, res) => {
 
 //lấy ra video của những người không follow nhưng có đăng nhập
 const getRandomVideoLogin = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(demoVideos);
+  }
   const bearerHeader = req.headers["idaccount"];
   const idAccount = bearerHeader.split(" ")[1];
   const user = await userModel
@@ -173,6 +204,9 @@ const getRandomVideoLogin = async (req, res) => {
 
 //lấy ra video của những người có follow có đăng nhập
 const getRandomVideoLoginFollow = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send([]);
+  }
   const bearerHeader = req.headers["idaccount"];
   const idAccount = bearerHeader.split(" ")[1];
   const user = await userModel
@@ -193,6 +227,9 @@ const getRandomVideoLoginFollow = async (req, res) => {
 
 //lấy video đầu tiền của danh sách người dùng đề xuất
 const getFirstVideoUser = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(demoVideos);
+  }
   try {
     const user = await userModel.find({ tick: true });
     const arrUser = [];
@@ -288,6 +325,9 @@ const increaseShare = async (req, res) => {
 
 // get list videos
 const getListVideos = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(demoVideos);
+  }
   try {
     const videos = await videoModel
       .find({})
@@ -301,6 +341,12 @@ const getListVideos = async (req, res) => {
 };
 // get detail video
 const viewVideoDetail = async (req, res) => {
+  if (!isDatabaseReady()) {
+    const video = demoVideos.find((item) => item.id === req.params.id);
+    return video
+      ? res.status(200).send(video)
+      : res.status(404).send({ message: "Video không tồn tại!" });
+  }
   try {
     const id = req.params.id;
     const video = await videoModel.findById({ _id: id });

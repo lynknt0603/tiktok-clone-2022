@@ -1,4 +1,7 @@
 const MusicModel = require("../Models/MusicModel");
+const { demoMusic, demoVideos } = require("../Data/demoData");
+
+const isDatabaseReady = () => MusicModel.db.readyState === 1;
 const videoModel = require("../Models/VideoModel");
 const multer = require("multer");
 
@@ -131,6 +134,9 @@ const getReportMusic = async (req, res) => {
 
 //xử lý get list music
 const getListMusic = async (req, res) => {
+  if (!isDatabaseReady()) {
+    return res.status(200).send(demoMusic);
+  }
   try {
     const listMusic = await MusicModel.find();
     res.send(listMusic);
@@ -158,6 +164,16 @@ const getListMusicUpload = async (req, res) => {
 
 //get âm nhạc
 const getMusic = async (req, res) => {
+  if (!isDatabaseReady()) {
+    const music = demoMusic.find((item) => item.id === req.params.id);
+    if (!music) {
+      return res.status(404).send({ message: "Âm nhạc không tồn tại!" });
+    }
+    return res.status(200).send({
+      ...music,
+      video: demoVideos.filter((item) => item.music.id === music.id),
+    });
+  }
   try {
     const id = req.params.id;
     const listVideo = await videoModel.find({ music: id });

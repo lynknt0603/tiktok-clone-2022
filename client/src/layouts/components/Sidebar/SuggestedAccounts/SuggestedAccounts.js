@@ -23,13 +23,13 @@ function SuggestedAccounts({ label }) {
                 .then((result) => {
                     setUsers(result);
                     if(result) {
-                        setTimeout(() => {
-                            setTime(true);
-                        }, 2000);
+                        setTime(true);
                     }
                 })
                 .catch((err) => {
                     console.log(err);
+                    setUsers({ data: [] });
+                    setTime(true);
                 });
         } catch (error) {
             console.log(error);

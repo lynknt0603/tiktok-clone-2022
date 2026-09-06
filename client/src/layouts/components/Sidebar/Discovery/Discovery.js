@@ -40,13 +40,12 @@ function Discovery({ label }) {
                 .then((resultTrendy) => {
                     setTrendy(resultTrendy.data);
                     if (resultTrendy) {
-                        setTimeout(() => {
-                            setTime(true);
-                        }, 2000);
+                        setTime(true);
                     }
                 })
                 .catch((err) => {
                     console.log(err);
+                    setTime(true);
                 });
         } catch (error) {
             console.log(error);
@@ -61,13 +60,12 @@ function Discovery({ label }) {
                 .then((resultMusic) => {
                     setMusic(resultMusic.data);
                     if (resultMusic) {
-                        setTimeout(() => {
-                            setTime(true);
-                        }, 2000);
+                        setTime(true);
                     }
                 })
                 .catch((err) => {
                     console.log(err);
+                    setTime(true);
                 });
         } catch (error) {
             console.log(error);
